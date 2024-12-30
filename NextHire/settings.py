@@ -3,15 +3,15 @@ import environ
 import psycopg2
 import os
 env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(BASE_DIR / '.env')
 
 SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app"]
+ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", "*"]
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
