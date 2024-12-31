@@ -26,6 +26,13 @@ class SearchByCategory(filters.BaseFilterBackend):
             return query_set.filter(category__categorie__icontains=category_name)
         return query_set
     
+class SearchByCompany(filters.BaseFilterBackend):
+    def filter_queryset(self, request, query_set, view):
+        company_name = request.query_params.get("company")
+        if company_name:
+            return query_set.filter(company__name__icontains=company_name)
+        return query_set
+
 class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
@@ -37,4 +44,4 @@ class CompanyViewSet(viewsets.ModelViewSet):
 class JobListingViewSet(viewsets.ModelViewSet):
     queryset = JobListing.objects.all()
     serializer_class = JobListingSerializer
-    filter_backends = [EmployeePostJobIndivitual, IndivitualJob, SearchByCategory]
+    filter_backends = [EmployeePostJobIndivitual, IndivitualJob, SearchByCategory, SearchByCompany]

@@ -16,7 +16,7 @@ class JobListingSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     applicants = serializers.SerializerMethodField()
     employer = serializers.StringRelatedField(many=False)
-    company = serializers.StringRelatedField(many=False)
+    company = serializers.SerializerMethodField()
     
     class Meta:
         model = JobListing
@@ -25,3 +25,6 @@ class JobListingSerializer(serializers.ModelSerializer):
     def get_applicants(self, obj):
         applications = obj.applications.all()
         return JobApplicationSerializer(applications, many=True).data
+
+    def get_company(self, obj):
+        return CompanySerializer(obj.company).data
