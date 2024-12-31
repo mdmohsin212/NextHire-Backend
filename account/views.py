@@ -29,7 +29,7 @@ class UserRegistationView(APIView):
             
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            link = f"http://127.0.0.1:8000/user/active/{uid}/{token}"
+            link = f"https://nexthire-backend.onrender.com/user/active/{uid}/{token}"
 
             email_subject = "Active your Account"
             email_body = render_to_string('confirmation_mail.html',{'confirm_link' : link, 'user' : user})
