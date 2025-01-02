@@ -7,14 +7,12 @@ from django.template.loader import render_to_string
 
 class JobApplication(models.Model):
     job_seeker = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'profile__role' : 'Job Seeker'}, related_name='applications')
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField()
-    phone_number = models.CharField(max_length=12)
-    address = models.TextField(blank=True)
-    github_url = models.URLField(blank=True, null=True)
+    website_url = models.URLField(blank=True, null=True)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE, related_name='applications')
     cv = models.FileField(upload_to='applications/')
+    letter = models.TextField(blank=True)
     applied_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

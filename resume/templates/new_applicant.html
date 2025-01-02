@@ -16,19 +16,15 @@
             <tbody>
                 <tr>
                     <th scope="row">Name : </th>
-                    <td>{{applicant.first_name}} {{applicant.last_name}}</td>
+                    <td>{{applicant.name}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Email : </th>
                     <td>{{applicant.job_seeker.email}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Phone : </th>
-                    <td>{{applicant.phone_number}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">GitHub : </th>
-                    <td>{{applicant.github_url|default:"Not provided"}}</td>
+                    <th scope="row">Website : </th>
+                    <td>{{applicant.website_url|default:"Not provided"}}</td>
                 </tr>
             </tbody>
         </table><br>
