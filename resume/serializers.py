@@ -4,7 +4,6 @@ from .models import JobApplication
 class JobApplicationSerializer(serializers.ModelSerializer):
     job = serializers.StringRelatedField()
     job_seeker = serializers.StringRelatedField()
-    cv = serializers.SerializerMethodField()
     class Meta:
         model = JobApplication
         fields = '__all__'
