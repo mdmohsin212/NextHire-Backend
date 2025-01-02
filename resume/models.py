@@ -9,7 +9,7 @@ class JobApplication(models.Model):
     job_seeker = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'profile__role' : 'Job Seeker'}, related_name='applications')
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    website_url = models.URLField(blank=True, null=True)
+    website_url = models.CharField(max_length=200,blank=True, null=True)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE, related_name='applications')
     cv = models.FileField(upload_to='applications/')
     letter = models.TextField(blank=True)
