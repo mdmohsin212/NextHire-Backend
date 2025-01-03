@@ -18,9 +18,8 @@ class CompanySerializer(serializers.ModelSerializer):
         
 
 class JobListingSerializer(serializers.ModelSerializer):
-    # category = serializers.StringRelatedField(many=True)
     applicants = serializers.SerializerMethodField()
-    employer = serializers.StringRelatedField(many=False)
+    # employer = serializers.StringRelatedField(many=False)
     company_img = serializers.SerializerMethodField()
     
     class Meta:
