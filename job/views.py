@@ -26,6 +26,10 @@ class AllSearch(filters.BaseFilterBackend):
         if job_type:
             return query_set.filter(job_type__iexact=job_type)
         
+        job_seeker = request.query_params.get("seeker_id")
+        if job_seeker:
+            return query_set.filter(applicants=job_seeker)
+        
         return query_set
 
 class CategoriesViewSet(viewsets.ModelViewSet):
