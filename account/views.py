@@ -12,12 +12,20 @@ from rest_framework.authtoken.models import Token
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from rest_framework import viewsets
+from rest_framework import filters
 
 # Create your views here.
 
+class userSearch(filters.BaseFilterBackend):
+    def filter_queryset(self,request, query_set, view):
+        employe_id = request.query_params.get("id")
+        if employe_id:
+            return query_set.filter(user__id=employe_id)
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileSerializer    
+    filter_backends = [userSearch]
 
 class UserRegistationView(APIView):
     serializer_class = UserRegistrationSerializers
