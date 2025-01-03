@@ -8,7 +8,7 @@ class AllSearch(filters.BaseFilterBackend):
     def filter_queryset(self,request, query_set, view):
         employe_id = request.query_params.get("employer_id")
         if employe_id:
-            return query_set.filter(employer__iexact=employe_id)
+            return query_set.filter(employer=employe_id)
     
         job_id = request.query_params.get("job_id")
         if job_id:
