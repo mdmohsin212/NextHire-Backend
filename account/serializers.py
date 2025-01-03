@@ -8,9 +8,22 @@ ROLE_CHOICES = [
 ]
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
     class Meta:
         model = Profile
-        fields = ['user', 'role']
+        fields = "__all__"
+        
+    def get_user(self, obj):
+        user = obj.user
+        profile = user.profile
+        return {
+            "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+        }
+
+    
 
 class UserRegistrationSerializers(serializers.ModelSerializer):
     confirm_password = serializers.CharField(required=True)

@@ -12,6 +12,11 @@ class AppliedJobIndivitual(filters.BaseFilterBackend):
         seeker_id = request.query_params.get("job_seeker")
         if seeker_id:
             return query_set.filter(job_seeker=seeker_id)
+        
+        job_id = request.query_params.get("job_id")
+        if job_id:
+            return query_set.filter(job=job_id)
+        
         return query_set
 
 class JobApplicationViewSet(viewsets.ModelViewSet):
