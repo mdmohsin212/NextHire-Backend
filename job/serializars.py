@@ -21,7 +21,7 @@ class JobListingSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     applicants = serializers.SerializerMethodField()
     employer = serializers.StringRelatedField(many=False)
-    company = serializers.SerializerMethodField()
+    # company = serializers.SerializerMethodField()
     
     class Meta:
         model = JobListing
