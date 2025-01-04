@@ -5,7 +5,6 @@ from .views import *
 router = DefaultRouter()
 
 router.register('list', JobListingViewSet)
-router.register('categories', CategoriesViewSet)
 router.register('company', CompanyViewSet)
 
 urlpatterns = [

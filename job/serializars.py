@@ -2,10 +2,6 @@ from rest_framework import serializers
 from resume.serializers import *
 from .models import *
 
-class CategorieSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Categorie
-        fields = '__all__'
         
 class CompanySerializer(serializers.ModelSerializer):
     img = serializers.SerializerMethodField()
