@@ -15,7 +15,6 @@ from rest_framework import viewsets
 from rest_framework import filters
 
 # Create your views here.
-
 class userSearch(filters.BaseFilterBackend):
     def filter_queryset(self,request, query_set, view):
         employe_id = request.query_params.get("id")
@@ -80,6 +79,6 @@ def active_user(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect("login")
+        return redirect("https://nexthire-frontend.onrender.com/login")
     else:
-        return redirect('register')
+        return redirect('https://nexthire-frontend.onrender.com/signup')

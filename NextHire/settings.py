@@ -13,6 +13,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", "*"]
 
+LOGIN = "https://nexthire-frontend.onrender.com/login"
+
 CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.onrender.com', 'https://*.127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = [
@@ -55,6 +57,7 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'NextHire.urls'
+# ROOT_URLCONF = 'SnapBuy.urls'
 
 TEMPLATES = [
     {
@@ -73,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'NextHire.wsgi.application'
+# WSGI_APPLICATION = 'SnapBuy.wsgi.application'
 
 
 DATABASES = {
@@ -85,6 +89,13 @@ DATABASES = {
         'PORT': env("port")
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
