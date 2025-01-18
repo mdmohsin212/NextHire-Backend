@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 # Create your models here.
 
 class Company(models.Model):
@@ -20,23 +22,61 @@ class JobListing(models.Model):
     employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_listing', limit_choices_to={'profile__role': 'Employer'})
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    # category = models.ManyToManyField(Categorie)
     description = models.TextField()
     requirment = models.TextField()
     loaction = models.CharField(max_length=200)
     vacancy = models.IntegerField(default=0)
     job_type = models.CharField(choices=CHOICES, blank=True, null=True)
     salary = models.IntegerField(default=0)
-    applicants = models.ManyToManyField(
-        User,
-        related_name='applied_jobs',
-        blank=True,
-        limit_choices_to={'profile__role': 'Job Seeker'}
-    )
     posted_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.title 
+        return self.title
+
+CHOICES_STATUS = [
+    ("Approved", "Approved"),
+    ("Pending", "Pending"),
+    ("Rejected", "Rejected")
+]
     
+class AppliedJob(models.Model):
+    candidate = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='applied_jobs_as_candidate',
+        limit_choices_to={'profile__role': 'Job Seeker'}
+    )
+    employer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='applied_jobs_as_employer',
+        limit_choices_to={'profile__role': 'Employer'}
+    )
+    job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=20, choices=CHOICES_STATUS, default="Pending"
+    )
+    applicant_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.applicant_name} - {self.job.title}"
     
+    def save(self, *args, **kwargs):
+        previously = AppliedJob.objects.get(pk=self.pk)
+        if previously.status != "Approved" and self.status == "Approved":
+            email_subject = f"Congratulations! Your application for {self.job.title} is approved"
+            email_body = f"""
+            Hi {self.candidate.first_name} {self.candidate.last_name},
+            Congratulations! Your application for the position "{self.job.title}" at "{self.job.company.name}" has been approved.
+            Best regards,
+            {self.employer.first_name} {self.employer.last_name}
+            """
+            email = EmailMultiAlternatives(
+                subject=email_subject,
+                body=email_body,
+                to=[self.candidate.email]
+            )
+            email.send()
+        super().save(*args, **kwargs)
+
 # 123456SI

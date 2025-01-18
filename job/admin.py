@@ -7,3 +7,4 @@ class CompanyAdmin(admin.ModelAdmin):
     
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(JobListing)
+admin.site.register(AppliedJob)

@@ -28,10 +28,20 @@ class AllSearch(filters.BaseFilterBackend):
         
         return query_set
 
+class AppliedJobSearch(filters.BaseFilterBackend):
+    def filter_queryset(self,request, query_set, view):
+        job_id = request.query_params.get("job_id")
+        if job_id:
+            return query_set.filter(job__id=job_id)
     
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    
+class AppliedJobViewSet(viewsets.ModelViewSet):
+    queryset = AppliedJob.objects.all()
+    serializer_class = AppliedJobSerializer
+    filter_backends = [AppliedJobSearch]
     
 class JobListingViewSet(viewsets.ModelViewSet):
     queryset = JobListing.objects.all()

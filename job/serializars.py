@@ -14,17 +14,16 @@ class CompanySerializer(serializers.ModelSerializer):
         
 
 class JobListingSerializer(serializers.ModelSerializer):
-    applicants = serializers.SerializerMethodField()
-    # employer = serializers.StringRelatedField(many=False)
     company_img = serializers.SerializerMethodField()
-    
     class Meta:
         model = JobListing
         fields = '__all__'
 
-    def get_applicants(self, obj):
-        applications = obj.applications.all()
-        return JobApplicationSerializer(applications, many=True).data
-
     def get_company_img(self, obj):
         return CompanySerializer(obj.company).data.get('img')
+    
+    
+class AppliedJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppliedJob
+        fields = "__all__"

@@ -1,5 +1,5 @@
 from django.db import models
-from job.models import JobListing
+from job.models import JobListing, AppliedJob
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -20,7 +20,15 @@ class JobApplication(models.Model):
     
     def save(self,*args, **kwargs):    
         super(JobApplication, self).save(*args, **kwargs)
-        self.job.applicants.add(self.job_seeker)
+        
+        applied_job = AppliedJob.objects.create(
+            candidate=self.job_seeker,
+            job=self.job,
+            employer=self.job.employer,
+            applicant_name=self.job_seeker.username,
+            status="Pending",
+            )
+        applied_job.save()
         
         email_subject = f"New Job Application for {self.job.title}"
         email_body = render_to_string('new_applicant.html', {'job' : self.job, 'applicant' : self})
