@@ -33,6 +33,10 @@ class AppliedJobSearch(filters.BaseFilterBackend):
         job_id = request.query_params.get("job_id")
         if job_id:
             return query_set.filter(job__id=job_id)
+        
+        id = request.query_params.get("id")
+        if id:
+            return query_set.filter(id=id)
     
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
