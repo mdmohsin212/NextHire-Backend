@@ -33,19 +33,16 @@ class AppliedJobSearch(filters.BaseFilterBackend):
         job_id = request.query_params.get("job_id")
         if job_id:
             return query_set.filter(job__id=job_id)
-        
-        id = request.query_params.get("id")
-        if id:
-            return query_set.filter(id=id)
-    
-class CompanyViewSet(viewsets.ModelViewSet):
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer
+        return query_set
     
 class AppliedJobViewSet(viewsets.ModelViewSet):
     queryset = AppliedJob.objects.all()
     serializer_class = AppliedJobSerializer
     filter_backends = [AppliedJobSearch]
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
     
 class JobListingViewSet(viewsets.ModelViewSet):
     queryset = JobListing.objects.all()
