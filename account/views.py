@@ -7,7 +7,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from rest_framework.authtoken.models import Token
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -82,3 +82,16 @@ def active_user(request, uid64, token):
         return redirect("https://nexthire-frontend.onrender.com/login")
     else:
         return redirect('https://nexthire-frontend.onrender.com/signup')
+    
+class PasswordChangeAPIView(APIView):
+    def post(self, request, user_id):
+        user = User.objects.get(id=user_id)
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+        
+        if not user.check_password(old_password):
+            return Response({"error": "Old password is incorrect."})
+        user.set_password(new_password)
+        user.save()
+        update_session_auth_hash(request, user)
+        return Response({"message": "Password changed successfully."})

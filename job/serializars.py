@@ -24,6 +24,11 @@ class JobListingSerializer(serializers.ModelSerializer):
     
     
 class AppliedJobSerializer(serializers.ModelSerializer):
+    candidate = serializers.SerializerMethodField()
     class Meta:
         model = AppliedJob
         fields = "__all__"
+    
+    def get_candidate(self, obj):
+        job_application = JobApplication.objects.get(job_seeker=obj.candidate, job=obj.job)
+        return JobApplicationSerializer(job_application).data

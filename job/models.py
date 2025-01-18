@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
 # Create your models here.
 
 class Company(models.Model):
@@ -29,7 +28,7 @@ class JobListing(models.Model):
     job_type = models.CharField(choices=CHOICES, blank=True, null=True)
     salary = models.IntegerField(default=0)
     posted_date = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return self.title
 
@@ -62,8 +61,7 @@ class AppliedJob(models.Model):
         return f"{self.applicant_name} - {self.job.title}"
     
     def save(self, *args, **kwargs):
-        previously = AppliedJob.objects.get(pk=self.pk)
-        if previously.status != "Approved" and self.status == "Approved":
+        if self.status == "Approved":
             email_subject = f"Congratulations! Your application for {self.job.title} is approved"
             email_body = f"""
             Hi {self.candidate.first_name} {self.candidate.last_name},
