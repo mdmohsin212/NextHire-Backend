@@ -52,6 +52,3 @@ class JobListingViewSet(viewsets.ModelViewSet):
     queryset = JobListing.objects.all()
     serializer_class = JobListingSerializer
     filter_backends = [AllSearch]
-
-
-# update

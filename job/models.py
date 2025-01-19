@@ -56,6 +56,9 @@ class AppliedJob(models.Model):
         max_length=20, choices=CHOICES_STATUS, default="Pending"
     )
     applicant_name = models.CharField(max_length=100)
+    task = models.TextField(null=True, blank=True)
+    final_dateline = models.DateField(null=True, blank=True)
+    is_complete = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.applicant_name} - {self.job.title}"
@@ -69,6 +72,16 @@ class AppliedJob(models.Model):
             Best regards,
             {self.employer.first_name} {self.employer.last_name}
             """
+        elif self.status == "Rejected":
+            email_subject = f"Your application for {self.job.title} has been rejected"
+            email_body = f"""
+            Hi {self.candidate.first_name} {self.candidate.last_name},
+            We regret to inform you that your application for the position "{self.job.title}" at "{self.job.company.name}" has been rejected.
+            Thank you for your interest, and we wish you the best in your job search.
+            Best regards,
+            {self.employer.first_name} {self.employer.last_name}
+            """
+            
             email = EmailMultiAlternatives(
                 subject=email_subject,
                 body=email_body,
