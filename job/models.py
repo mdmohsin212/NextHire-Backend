@@ -72,6 +72,7 @@ class AppliedJob(models.Model):
             Best regards,
             {self.employer.first_name} {self.employer.last_name}
             """
+
         elif self.status == "Rejected":
             email_subject = f"Your application for {self.job.title} has been rejected"
             email_body = f"""
@@ -82,12 +83,13 @@ class AppliedJob(models.Model):
             {self.employer.first_name} {self.employer.last_name}
             """
             
-            email = EmailMultiAlternatives(
-                subject=email_subject,
-                body=email_body,
-                to=[self.candidate.email]
-            )
-            email.send()
+        email = EmailMultiAlternatives(
+            subject=email_subject,
+            body=email_body,
+            to=[self.candidate.email]
+        )
+        email.send()
+            
         super().save(*args, **kwargs)
 
 # 123456SI
