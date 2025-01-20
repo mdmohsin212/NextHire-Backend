@@ -59,6 +59,8 @@ class AppliedJob(models.Model):
     task = models.TextField(null=True, blank=True)
     final_dateline = models.DateField(null=True, blank=True)
     is_complete = models.BooleanField(default=False)
+    is_jobAssign = models.BooleanField(default=False)
+    Submit_Job = models.TextField(blank=True, null=True) 
 
     def __str__(self):
         return f"{self.applicant_name} - {self.job.title}"
