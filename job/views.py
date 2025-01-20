@@ -29,15 +29,20 @@ class AllSearch(filters.BaseFilterBackend):
         return query_set
 
 class AppliedJobSearch(filters.BaseFilterBackend):
-    def filter_queryset(self,request, query_set, view):
+    def filter_queryset(self, request, queryset, view):
         job_id = request.query_params.get("job_id")
         if job_id:
-            return query_set.filter(job__id=job_id)
-        
-        seeker = request.query_params.get("seeker_id")
-        if seeker:
-            return query_set.filter(candidate__id=seeker)
-        return query_set
+            queryset = queryset.filter(job__id=job_id)
+            
+        seeker_id = request.query_params.get("seeker_id")
+        if seeker_id:
+            queryset = queryset.filter(candidate__id=seeker_id)
+            
+        employer_id = request.query_params.get("employer_id")
+        if employer_id:
+            queryset = queryset.filter(employer__id=employer_id)
+            
+        return queryset
     
 class AppliedJobViewSet(viewsets.ModelViewSet):
     queryset = AppliedJob.objects.all()
