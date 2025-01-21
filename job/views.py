@@ -3,6 +3,8 @@ from .serializars import *
 from .models import *
 from rest_framework import viewsets
 from rest_framework import filters
+from django.http import JsonResponse
+from resume.models import AppliedJob
 
 class AllSearch(filters.BaseFilterBackend):
     def filter_queryset(self,request, query_set, view):
@@ -57,3 +59,16 @@ class JobListingViewSet(viewsets.ModelViewSet):
     queryset = JobListing.objects.all()
     serializer_class = JobListingSerializer
     filter_backends = [AllSearch]
+    
+def status(request, user_id, job_id):
+    try:
+        user = User.objects.get(id=user_id)
+        all_data = AppliedJob.objects.filter(candidate=user)
+        
+        for data in all_data:    
+            if data.job.id == job_id:
+                return JsonResponse({'status': False})
+                
+        return JsonResponse({'status': True})
+    except User.DoesNotExist:
+        return JsonResponse({"error": "Not found user"})

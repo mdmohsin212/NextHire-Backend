@@ -3,8 +3,6 @@ from .serializers import *
 from .models import *
 from rest_framework import viewsets
 from rest_framework import filters
-# from rest_framework.permissions import IsAuthenticated
-
 # Create your views here.
 
 class AppliedJobIndivitual(filters.BaseFilterBackend):
@@ -20,7 +18,6 @@ class AppliedJobIndivitual(filters.BaseFilterBackend):
         return query_set
 
 class JobApplicationViewSet(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
     queryset = JobApplication.objects.all() 
     serializer_class = JobApplicationSerializer
     filter_backends = [AppliedJobIndivitual]
