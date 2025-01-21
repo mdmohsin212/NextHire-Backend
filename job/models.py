@@ -66,6 +66,8 @@ class AppliedJob(models.Model):
         return f"{self.applicant_name} - {self.job.title}"
     
     def save(self, *args, **kwargs):
+        email_subject = ""
+        email_body = ""
         if self.status == "Approved":
             email_subject = f"Congratulations! Your application for {self.job.title} is approved"
             email_body = f"""

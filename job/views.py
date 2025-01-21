@@ -60,15 +60,15 @@ class JobListingViewSet(viewsets.ModelViewSet):
     serializer_class = JobListingSerializer
     filter_backends = [AllSearch]
     
-# def status(request, user_id, job_id):
-#     try:
-#         user = User.objects.get(id=user_id)
-#         all_data = AppliedJob.objects.filter(candidate=user)
+def status(request, user_id, job_id):
+    try:
+        user = User.objects.get(id=user_id)
+        all_data = AppliedJob.objects.filter(candidate=user)
         
-#         for data in all_data:    
-#             if data.job.id == job_id:
-#                 return JsonResponse({'status': False})
+        for data in all_data:    
+            if data.job.id == job_id:
+                return JsonResponse({'status': False})
                 
-#         return JsonResponse({'status': True})
-#     except User.DoesNotExist:
-#         return JsonResponse({"error": "Not found user"})
+        return JsonResponse({'status': True})
+    except User.DoesNotExist:
+        return JsonResponse({"error": "Not found user"})
