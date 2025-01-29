@@ -58,7 +58,7 @@ class AppliedJob(models.Model):
     applicant_name = models.CharField(max_length=100)
     task = models.TextField(null=True, blank=True)
     final_dateline = models.DateField(null=True, blank=True)
-    is_complete = models.BooleanField(default=False)
+    is_complete = models.CharField(max_length=20, choices=CHOICES_STATUS, default="Pending")
     is_jobAssign = models.BooleanField(default=False)
     Submit_Job = models.TextField(blank=True, null=True) 
 
@@ -87,12 +87,13 @@ class AppliedJob(models.Model):
             {self.employer.first_name} {self.employer.last_name}
             """
             
-        email = EmailMultiAlternatives(
+        if len(email_subject) != 0 and len(email_body) != 0:
+            email = EmailMultiAlternatives(
             subject=email_subject,
             body=email_body,
             to=[self.candidate.email]
-        )
-        email.send()
+            )
+            email.send()
             
         super().save(*args, **kwargs)
 
