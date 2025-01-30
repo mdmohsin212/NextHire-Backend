@@ -58,7 +58,8 @@ class AppliedJob(models.Model):
     applicant_name = models.CharField(max_length=100)
     task = models.TextField(null=True, blank=True)
     final_dateline = models.DateField(null=True, blank=True)
-    is_complete = models.CharField(max_length=20, choices=CHOICES_STATUS, default="Pending")
+    is_complete = models.BooleanField(default=False)
+    submit_status = models.CharField(max_length=20, choices=CHOICES_STATUS, default="Pending")
     is_jobAssign = models.BooleanField(default=False)
     Submit_Job = models.TextField(blank=True, null=True) 
 
