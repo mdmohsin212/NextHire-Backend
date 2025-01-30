@@ -39,22 +39,11 @@ CHOICES_STATUS = [
 ]
     
 class AppliedJob(models.Model):
-    candidate = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='applied_jobs_as_candidate',
-        limit_choices_to={'profile__role': 'Job Seeker'}
-    )
-    employer = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='applied_jobs_as_employer',
-        limit_choices_to={'profile__role': 'Employer'}
-    )
+    candidate = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applied_jobs_as_candidate', limit_choices_to={'profile__role': 'Job Seeker'})
+    employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applied_jobs_as_employer',
+    limit_choices_to={'profile__role': 'Employer'})
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
-    status = models.CharField(
-        max_length=20, choices=CHOICES_STATUS, default="Pending"
-    )
+    status = models.CharField(max_length=20, choices=CHOICES_STATUS, default="Pending")
     applicant_name = models.CharField(max_length=100)
     task = models.TextField(null=True, blank=True)
     final_dateline = models.DateField(null=True, blank=True)
