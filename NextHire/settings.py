@@ -1,31 +1,29 @@
 from pathlib import Path
 import environ
-import psycopg2
 import os
+
 env = environ.Env()
-environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(BASE_DIR / '.env')
 
 SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", "*"]
+ALLOWED_HOSTS = ["*"]
 
 LOGIN = "https://nexthire-frontend.onrender.com/login"
 
-CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.onrender.com', 'https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.onrender.com', 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
-]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
 INSTALLED_APPS = [
-    'corsheaders',
     "whitenoise.runserver_nostatic",
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,7 +55,6 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'NextHire.urls'
-# ROOT_URLCONF = 'SnapBuy.urls'
 
 TEMPLATES = [
     {
@@ -75,8 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'NextHire.wsgi.application'
-# WSGI_APPLICATION = 'SnapBuy.wsgi.application'
+WSGI_APPLICATION = 'NextHire.wsgi.app'
 
 
 DATABASES = {
@@ -89,13 +85,6 @@ DATABASES = {
         'PORT': env("port")
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
