@@ -8,6 +8,7 @@ urlpatterns = [
     path('user/', include('account.urls')),
     path('job/', include('job.urls')),
     path('resume/', include('resume.urls')),
+    path('payment/', include('resume.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,
