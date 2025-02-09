@@ -1,6 +1,5 @@
-from .serializers import *
 from .models import *
-from sslcommerz_lib import SSLCOMMERZ
+from sslcommerz_lib import SSLCOMMERZ 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponseRedirect, JsonResponse
