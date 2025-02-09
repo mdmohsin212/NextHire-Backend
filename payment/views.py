@@ -13,7 +13,7 @@ class CheckoutView(viewsets.ModelViewSet):
     serializer_class = CheckoutSerializer
 
 class payment(APIView):
-    def post(self, request, user_id, *args, **kwargs):
+    def post(self, request, user_id, job_id, *args, **kwargs):
         user = User.objects.get(id=user_id)
         data = Checkout.objects.filter(sender=user, Order=False).first()
         settings = {
@@ -26,8 +26,8 @@ class payment(APIView):
             'total_amount': data.total_amount,
             'currency': "BDT",
             'tran_id': data.tran_id,
-            'success_url': f"https://nexthire-backend.vercel.app/payment/payment-success/{user_id}/",
-            'fail_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/",
+            'success_url': f"https://nexthire-backend.vercel.app/payment/payment-success/{user_id}/{job_id}/",
+            'fail_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/{job_id}/",
             'cancel_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/",
             'emi_option': 0,
             'cus_name': data.name,
@@ -49,13 +49,13 @@ class payment(APIView):
 
 
 class PaymentSuccessView(APIView):
-    def post(self, request, user_id, *args, **kwargs):
+    def post(self, request, user_id, job_id, *args, **kwargs):  
         try:
             user = User.objects.get(id=user_id)
             payment_data = request.data
             tran_id = payment_data.get('tran_id')
             checkout = Checkout.objects.filter(tran_id=tran_id, Order=False).first()
-            job = AppliedJob.objects.filter(candidate=checkout.receiver).first()
+            job = AppliedJob.objects.filter(job_id=job_id).first()
             
             job.submit_status = "Approved"
             job.save()
@@ -64,7 +64,7 @@ class PaymentSuccessView(APIView):
                 checkout.Order = True
                 checkout.status = "COMPLETE"
                 checkout.save()
-                
+
                 receiver_profile = Profile.objects.filter(user_id=checkout.receiver).first()
                 if receiver_profile:
                     receiver_profile.balance += checkout.total_amount
