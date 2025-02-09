@@ -93,7 +93,7 @@ class PaymentFailedView(APIView):
 
 def status(request, user_id):
     try:
-        checkouts = Checkout.objects.filter(user_id=user_id).only("id", "Order")
+        checkouts = Checkout.objects.filter(sender=user_id).only("id", "Order")
         
         for checkout in checkouts:
             if checkout.Order == False:
