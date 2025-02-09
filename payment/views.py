@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from account.models import Profile
 from rest_framework import viewsets
 from .serializers import *
+from job.models import AppliedJob
 
 class CheckoutView(viewsets.ModelViewSet):
     queryset = Checkout.objects.all()
@@ -14,7 +15,7 @@ class CheckoutView(viewsets.ModelViewSet):
 class payment(APIView):
     def post(self, request, user_id, *args, **kwargs):
         user = User.objects.get(id=user_id)
-        data = Checkout.objects.filter(user=user, Order=False).first()
+        data = Checkout.objects.filter(sender=user, Order=False).first()
         settings = {
             'store_id': 'snapb6780925c46a95',
             'store_pass': 'snapb6780925c46a95@ssl',
@@ -54,7 +55,11 @@ class PaymentSuccessView(APIView):
             payment_data = request.data
             tran_id = payment_data.get('tran_id')
             checkout = Checkout.objects.filter(tran_id=tran_id, Order=False).first()
-
+            job = AppliedJob.objects.filter(candidate=checkout.receiver).first()
+            
+            job.submit_status = "Approved"
+            job.save()
+            
             if checkout:
                 checkout.Order = True
                 checkout.status = "COMPLETE"
