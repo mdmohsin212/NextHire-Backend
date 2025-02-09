@@ -4,6 +4,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponseRedirect, JsonResponse
 from account.models import Profile
+from rest_framework import viewsets
+from .serializers import *
+
+class CheckoutView(viewsets.ModelViewSet):
+    queryset = Checkout.objects.all()
+    serializer_class = CheckoutSerializer
 
 class payment(APIView):
     def post(self, request, user_id, *args, **kwargs):
