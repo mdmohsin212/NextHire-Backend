@@ -10,7 +10,7 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_img(self, obj):
-        return f"https://nexthire-backend.onrender.com/media/{obj.img}"
+        return f"https://nexthire-backend.vercel.app/media/{obj.img}"
         
 
 class JobListingSerializer(serializers.ModelSerializer):

@@ -3,4 +3,5 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(wallet)
+# admin.site.register(Wallet)
+admin.site.register(Checkout)

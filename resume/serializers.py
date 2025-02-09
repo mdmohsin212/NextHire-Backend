@@ -7,4 +7,4 @@ class JobApplicationSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_cv(self, obj):
-        return f"https://nexthire-backend.onrender.com/media/{obj.cv}"
+        return f"https://nexthire-backend.vercel.app/media/{obj.cv}"

@@ -3,7 +3,8 @@ from .models import *
 from sslcommerz_lib import SSLCOMMERZ
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from account.models import Profile
 
 class payment(APIView):
     def post(self, request, user_id, *args, **kwargs):
@@ -19,9 +20,9 @@ class payment(APIView):
             'total_amount': data.total_amount,
             'currency': "BDT",
             'tran_id': data.tran_id,
-            'success_url': f"https://snapbuy-backend.onrender.com/payment/payment-success/{user_id}/",
-            'fail_url': f"https://snapbuy-backend.onrender.com/payment/payment-failed/{user_id}/",
-            'cancel_url': f"https://snapbuy-backend.onrender.com/payment/payment-failed/{user_id}/",
+            'success_url': f"https://nexthire-backend.vercel.app/payment/payment-success/{user_id}/",
+            'fail_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/",
+            'cancel_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/",
             'emi_option': 0,
             'cus_name': data.name,
             'cus_email': data.email,
@@ -53,22 +54,13 @@ class PaymentSuccessView(APIView):
                 checkout.Order = True
                 checkout.status = "COMPLETE"
                 checkout.save()
-
-                carts = Cart.objects.filter(user_id=user_id)
-                for cart in carts:
-                    OrderdItem.objects.create(
-                        user=cart.user,
-                        product=cart.product,
-                        buyer_name = checkout.name,
-                        email = checkout.email,
-                        address = checkout.address,
-                        status = checkout.status,
-                        quantity = cart.quantity,
-                        price=cart.product.price,
-                        tran_id=tran_id
-                    )
-                carts.delete()                
-                return HttpResponseRedirect('https://snapbuy-frontend.onrender.com/profile')
+                
+                receiver_profile = Profile.objects.filter(user_id=checkout.receiver).first()
+                if receiver_profile:
+                    receiver_profile.balance += checkout.total_amount
+                    receiver_profile.save()
+                   
+                return HttpResponseRedirect('https://next-hire-frontend-sandy.vercel.app/choisen_candidate')
 
             return Response({'error': 'Transaction not found or invalid.'})
 
@@ -88,7 +80,20 @@ class PaymentFailedView(APIView):
                 checkout.status = "FAILED"
                 checkout.save()
             
-            return HttpResponseRedirect('https://snapbuy-frontend.onrender.com/cart')
+            return HttpResponseRedirect('https://next-hire-frontend-sandy.vercel.app/choisen_candidate')
         
         except Exception:
             return Response({'error': "Something went wrong"})
+
+
+def status(request, user_id):
+    try:
+        checkouts = Checkout.objects.filter(user_id=user_id).only("id", "Order")
+        
+        for checkout in checkouts:
+            if checkout.Order == False:
+                return JsonResponse({'status': "YES", 'id': checkout.id})
+            
+        return JsonResponse({'status': "NO"})
+    except User.DoesNotExist:
+        return JsonResponse({"error": "Not found user"})
