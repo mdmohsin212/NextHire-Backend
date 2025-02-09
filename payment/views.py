@@ -26,8 +26,8 @@ class payment(APIView):
             'total_amount': data.total_amount,
             'currency': "BDT",
             'tran_id': data.tran_id,
-            'success_url': f"https://nexthire-backend.vercel.app/payment/payment-success/{user_id}/{job_id}/",
-            'fail_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/{job_id}/",
+            'success_url': f"https://nexthire-backend.vercel.app/payment/payment-success/{user_id}/",
+            'fail_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/",
             'cancel_url': f"https://nexthire-backend.vercel.app/payment/payment-failed/{user_id}/",
             'emi_option': 0,
             'cus_name': data.name,
@@ -49,13 +49,12 @@ class payment(APIView):
 
 
 class PaymentSuccessView(APIView):
-    def post(self, request, user_id, job_id, *args, **kwargs):  
+    def post(self, request, user_id, *args, **kwargs):  
         try:
-            user = User.objects.get(id=user_id)
             payment_data = request.data
             tran_id = payment_data.get('tran_id')
             checkout = Checkout.objects.filter(tran_id=tran_id, Order=False).first()
-            job = AppliedJob.objects.filter(job_id=job_id).first()
+            job = AppliedJob.objects.filter(job_id=user_id).first()
             
             job.submit_status = "Approved"
             job.save()
