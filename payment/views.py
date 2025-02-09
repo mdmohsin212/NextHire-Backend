@@ -13,7 +13,7 @@ class CheckoutView(viewsets.ModelViewSet):
     serializer_class = CheckoutSerializer
 
 class payment(APIView):
-    def post(self, request, user_id, job_id, *args, **kwargs):
+    def post(self, request, user_id, *args, **kwargs):
         user = User.objects.get(id=user_id)
         data = Checkout.objects.filter(sender=user, Order=False).first()
         settings = {
@@ -54,10 +54,12 @@ class PaymentSuccessView(APIView):
             payment_data = request.data
             tran_id = payment_data.get('tran_id')
             checkout = Checkout.objects.filter(tran_id=tran_id, Order=False).first()
-            job = AppliedJob.objects.filter(job_id=user_id).first()
             
-            job.submit_status = "Approved"
-            job.save()
+            applied = AppliedJob.objects.filter(id=checkout.job.id).first()
+            if applied:
+                applied.submit_status = "Approved"
+                applied.save()
+                print(checkout.job.id)
             
             if checkout:
                 checkout.Order = True
@@ -75,6 +77,8 @@ class PaymentSuccessView(APIView):
 
         except Exception:
             return Response({'error': "Something went wrong"})
+
+
 
 
 class PaymentFailedView(APIView):
