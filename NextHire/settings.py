@@ -12,18 +12,21 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
+CORS_ALLOW_ALL_ORIGINS = False  # Ensure this is False
+
+CORS_ALLOWED_ORIGINS = [
+    "https://nexthire-frontend.vercel.app",
+    "http://localhost:5175",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 ALLOWED_HOSTS = ["*"]
 
 LOGIN = "https://nexthire-frontend.onrender.com/login"
 
 CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.vercel.app/', 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
-
-CORS_ALLOWED_ORIGINS = [
-    "https://nexthire-frontend.vercel.app",
-    "https://nexthire-frontend.onrender.com",
-    "http://localhost:5175",
-    "http://127.0.0.1:3000",
-]
 
 
 INSTALLED_APPS = [
