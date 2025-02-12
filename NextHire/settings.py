@@ -12,16 +12,6 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
-CORS_ALLOW_ALL_ORIGINS = False
-
-CORS_ALLOWED_ORIGINS = [
-    "https://nexthire-frontend.vercel.app",
-    "http://localhost:5175",
-    "http://127.0.0.1:3000",
-]
-
-CORS_ALLOW_CREDENTIALS = True
-
 ALLOWED_HOSTS = ["*"]
 
 LOGIN = "https://nexthire-frontend.onrender.com/login"
@@ -58,6 +48,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "https://nexthire-frontend.vercel.app",
+    "http://localhost:5175",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
