@@ -12,11 +12,11 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://nexthire-backend.vercel.app/", "https://nexthire-frontend.vercel.app/", "localhost", "127.0.0.1"]
 
 LOGIN = "https://nexthire-frontend.onrender.com/login"
 
-CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.onrender.com', 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
+CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.vercel.app/', 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
 
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -40,8 +40,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
