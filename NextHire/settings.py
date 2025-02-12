@@ -12,7 +12,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
-CORS_ALLOW_ALL_ORIGINS = False  # Ensure this is False
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "https://nexthire-frontend.vercel.app",
