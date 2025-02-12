@@ -12,7 +12,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://nexthire-backend.vercel.app/", "https://nexthire-frontend.vercel.app/", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 LOGIN = "https://nexthire-frontend.onrender.com/login"
 
