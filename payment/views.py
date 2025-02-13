@@ -71,7 +71,7 @@ class PaymentSuccessView(APIView):
                     receiver_profile.balance += checkout.total_amount
                     receiver_profile.save()
                    
-                return HttpResponseRedirect('https://next-hire-frontend-sandy.vercel.app/choisen_candidate')
+                return HttpResponseRedirect('https://nexthire-frontend.vercel.app/choisen_candidate')
 
             return Response({'error': 'Transaction not found or invalid.'})
 
@@ -93,7 +93,7 @@ class PaymentFailedView(APIView):
                 checkout.status = "FAILED"
                 checkout.save()
             
-            return HttpResponseRedirect('https://next-hire-frontend-sandy.vercel.app/choisen_candidate')
+            return HttpResponseRedirect('https://nexthire-frontend.vercel.app/choisen_candidate')
         
         except Exception:
             return Response({'error': "Something went wrong"})
