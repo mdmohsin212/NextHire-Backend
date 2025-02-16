@@ -3,6 +3,7 @@ from job.models import JobListing, AppliedJob
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class JobApplication(models.Model):
@@ -11,7 +12,7 @@ class JobApplication(models.Model):
     email = models.EmailField()
     website_url = models.CharField(max_length=200,blank=True, null=True)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE, related_name='applications')
-    cv = models.FileField(upload_to='applications/')
+    cv = CloudinaryField("file") 
     letter = models.TextField(blank=True)
     applied_date = models.DateTimeField(auto_now_add=True)
     

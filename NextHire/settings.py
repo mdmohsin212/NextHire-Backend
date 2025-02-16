@@ -1,6 +1,10 @@
 from pathlib import Path
 import environ
 import os
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+   
 
 env = environ.Env()
 
@@ -21,7 +25,8 @@ CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1', "https://*.vercel.app", 'https://
 
 INSTALLED_APPS = [
     'corsheaders',
-    "whitenoise.runserver_nostatic",
+    'whitenoise.runserver_nostatic',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -122,12 +127,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CLOUDINARY_URL='cloudinary://731965217684527:ydorUKvuQk3LvAaMm35UgZkOvJM@djigbo7zo'
+
+cloudinary.config( 
+    cloud_name = "djigbo7zo", 
+    api_key = "731965217684527", 
+    api_secret = "ydorUKvuQk3LvAaMm35UgZkOvJM",
+    secure=True
+)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

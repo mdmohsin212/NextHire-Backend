@@ -4,13 +4,13 @@ from .models import *
 
         
 class CompanySerializer(serializers.ModelSerializer):
-    img = serializers.SerializerMethodField()
+    img = serializers.SerializerMethodField()   
     class Meta:
         model = Company
         fields = '__all__'
     
     def get_img(self, obj):
-        return f"https://nexthire-backend.vercel.app/media/{obj.img}"
+        return obj.img.url if obj.img else None
         
 
 class JobListingSerializer(serializers.ModelSerializer):
