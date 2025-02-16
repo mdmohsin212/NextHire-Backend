@@ -55,14 +55,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-CORS_ORIGIN_WHITELIST = (
-    "https://nexthire-frontend.vercel.app",
-    "https://nexthire-backend.vercel.app",
-    "http://localhost:5175",
-    "http://localhost:3000",
-    "http://localhost:8000",
-)
-
 ROOT_URLCONF = 'NextHire.urls'
 
 TEMPLATES = [
