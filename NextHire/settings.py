@@ -14,9 +14,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-LOGIN = "https://nexthire-frontend.onrender.com/login"
+CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.vercel.app/', 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
+LOGIN = "https://nexthire-frontend.vercel.app/login"
+
+CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.vercel.app', "https://nexthire-frontend.vercel.app", 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
 
 
 INSTALLED_APPS = [
@@ -49,18 +51,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-CORS_ALLOWED_ORIGINS = [
-    "https://nexthire-frontend.vercel.app",
-    "http://localhost:5175",
-    "http://127.0.0.1:3000",
-]
-
-CORS_ALLOW_ALL_ORIGINS = True
-
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+CORS_ORIGIN_WHITELIST = (
+    "https://nexthire-frontend.vercel.app",
+    "https://nexthire-backend.vercel.app",
+    "http://localhost:5175",
+    "http://localhost:3000",
+    "http://localhost:8000",
+)
 
 ROOT_URLCONF = 'NextHire.urls'
 
