@@ -17,8 +17,7 @@ ALLOWED_HOSTS = ["*"]
 
 LOGIN = "https://nexthire-frontend.vercel.app/login"
 
-CSRF_TRUSTED_ORIGINS = ['https://nexthire-backend.vercel.app', "https://nexthire-frontend.vercel.app", 'https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
-
+CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1', "https://*.vercel.app", 'https://*.supabase.com']
 
 INSTALLED_APPS = [
     'corsheaders',
@@ -57,8 +56,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://nexthire-frontend.vercel.app",
     "https://nexthire-backend.vercel.app",
 ]
-
-CORS_ALLOW_CREDENTIALS = True
 
 
 REST_FRAMEWORK = {
