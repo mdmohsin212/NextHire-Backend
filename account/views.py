@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .serializers import *
 from .models import *
 from rest_framework.views import APIView
@@ -95,3 +95,8 @@ class PasswordChangeAPIView(APIView):
         user.save()
         update_session_auth_hash(request, user)
         return Response({"message": "Password changed successfully."})
+    
+
+class ContactViewSet(viewsets.ModelViewSet):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializers

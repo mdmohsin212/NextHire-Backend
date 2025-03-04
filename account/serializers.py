@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Contact
 
 ROLE_CHOICES = [
     ('Employer', 'Employer'),
@@ -59,3 +59,9 @@ class UserRegistrationSerializers(serializers.ModelSerializer):
 class UserLoginSerializers(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+    
+
+class ContactSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = "__all__"
