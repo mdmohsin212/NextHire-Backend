@@ -59,7 +59,7 @@ class JobListingViewSet(viewsets.ModelViewSet):
     queryset = JobListing.objects.all()
     serializer_class = JobListingSerializer
     filter_backends = [AllSearch]
-    
+
 def status(request, user_id, job_id):
     try:
         user = User.objects.get(id=user_id)
