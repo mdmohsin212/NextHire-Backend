@@ -24,7 +24,7 @@ class JobListing(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     requirment = models.TextField()
-    loaction = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
     vacancy = models.IntegerField(default=0)
     job_type = models.CharField(choices=CHOICES, blank=True, null=True)
     salary = models.IntegerField(default=0)
