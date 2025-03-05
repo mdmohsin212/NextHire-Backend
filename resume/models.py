@@ -1,5 +1,6 @@
 from django.db import models
 from job.models import JobListing, AppliedJob
+from job.models import JobListing
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string

@@ -4,7 +4,6 @@ from .models import *
 from rest_framework import viewsets
 from rest_framework import filters
 from django.http import JsonResponse
-from resume.models import AppliedJob
 
 class AllSearch(filters.BaseFilterBackend):
     def filter_queryset(self,request, query_set, view):
