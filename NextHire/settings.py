@@ -4,6 +4,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+from datetime import timedelta
    
 
 env = environ.Env()
@@ -67,6 +68,13 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'NextHire.urls'
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=3),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
 
 TEMPLATES = [
     {

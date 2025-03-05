@@ -8,11 +8,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from rest_framework.authtoken.models import Token
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from rest_framework import viewsets
 from rest_framework import filters
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 class userSearch(filters.BaseFilterBackend):
@@ -49,19 +49,23 @@ class UserRegistationView(APIView):
 
 class UserLoginView(APIView):
     def post(self, request):
-        serializer =  UserLoginSerializers(data=self.request.data)
+        serializer = UserLoginSerializers(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
-            
+
             user = authenticate(username=username, password=password)
             if user:
-                token,_ = Token.objects.get_or_create(user=user)
                 login(request, user)
-                return Response({'token' : token.key, 'user_id' : user.id, 'role' : user.profile.role})
-            else:
-                return Response({'error' :'Invalid Credential'})
-        return Response(serializer.errors)
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'user_id': user.id,
+                    'role': user.profile.role
+                })
+            return Response({'error': 'Invalid Credentials'}, status=400)
+        return Response(serializer.errors, status=400)
     
 class UserLogoutView(APIView):
     def get(self,request):
