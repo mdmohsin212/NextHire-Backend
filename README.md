@@ -19,7 +19,8 @@ Welcome to **NextHire**, a feature-rich job portal designed to bridge the gap be
 
 ### **Job Seeker Features**  
 - **Job Search & Applications**: Users can explore job listings and apply with a single click.  
-- **Real-Time Application Tracking**: View the status of submitted applications and receive updates.  
+- **Real-Time Application Tracking**: View the status of submitted applications and receive updates.
+- **Submit Details**: Once their application is approved, job seekers can submit additional details as required by the employer. 
 
 ---
 ## **Technology Stack**  
